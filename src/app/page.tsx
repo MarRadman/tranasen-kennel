@@ -1,15 +1,66 @@
-import Button from '@mui/material/Button';
+import { getPageContent } from "./components/getPageContent";
+import { Box, Typography, CardMedia } from "@mui/material";
+import { HomePageData } from "@/app/types";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
-export default function Home() {
+const HomePage = async () => {
+  const pageData = (await getPageContent("page")) as any;
+
+  if (!pageData) {
+    return <Typography variant="h1">Homepage content not found</Typography>;
+  }
+
+  const { title, content, heroImage } = pageData;
+  const imageUrl = Array.isArray(heroImage) ? heroImage[0] : heroImage;
+
+  const imageUrlImage = heroImage?.fields?.file?.url
+    ? `https:${heroImage.fields.file.url}`
+    : (null as any);
+
   return (
-    <div>
-      <main>
-        <h1>Tranåsen hundkennel</h1>
-        <Button variant="contained" color="primary">
-      Click me!
-    </Button>
-      </main>
-      <footer></footer>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        p: 3,
+      }}>
+      <Typography
+        variant="h2"
+        component="h2"
+        gutterBottom
+        sx={{
+          textAlign: "center",
+          mb: 3,
+          fontSize: { xs: "2rem", sm: "3rem", md: "4rem" },
+          animation: "fadeIn 2s",
+        }}>
+        {title}
+      </Typography>
+      <CardMedia
+        component="img"
+        alt={imageUrl.fields.title}
+        image={imageUrlImage}
+        sx={{
+          width: { xs: "90%", sm: "80%", md: "70%", lg: "60%", xl: "50%" },
+          height: "auto",
+          mb: 3,
+          boxShadow: 3,
+          borderRadius: 2,
+          animation: "zoomIn 2s",
+        }}
+      />
+      <Typography
+        variant="body1"
+        color="textSecondary"
+        align="center"
+        sx={{ maxWidth: 800, mb: 3 }}>
+        {documentToReactComponents(content)}
+      </Typography>
+    </Box>
   );
-}
+};
+
+export default HomePage;

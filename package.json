@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^16.0.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.0.2",
     "@mui/material": "^7.0.2",
+    "contentful": "^11.5.15",
     "next": "15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
