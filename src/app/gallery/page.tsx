@@ -3,8 +3,8 @@ import { Box, Typography, CardMedia } from "@mui/material";
 import { HomePageData } from "@/app/types";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
-const contactInfo = async () => {
-  const pageData = (await getPageContent("contactInfo")) as any;
+const gallery = async () => {
+  const pageData = (await getPageContent("gallery")) as any;
 
   // if (!pageData) {
   //   return <Typography variant="h1">Homepage content not found</Typography>;
@@ -17,7 +17,7 @@ const contactInfo = async () => {
   //   ? `https:${heroImage.fields.file.url}`
   //   : (null as any);
 
-  return <div>ContactInfo</div>;
+  return <div>Gallery</div>;
 };
 
-export default contactInfo;
+export default gallery;

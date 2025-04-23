@@ -1,6 +1,6 @@
 import { getPageContent } from "./components/getPageContent";
 import { Box, Typography, CardMedia } from "@mui/material";
-import { HomePageData } from "@/app/types";
+// import { HomePageData } from "@/app/types";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 const HomePage = async () => {
