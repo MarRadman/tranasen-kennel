@@ -2,10 +2,23 @@ import { fetchData } from "../lib/contentful";
 
 export const getPageContent = async (contentType: string, slug?: string) => {
   const pageData = await fetchData(contentType, slug);
+  const page = pageData[0]?.fields;
+
+  if (!page) {
+    return null;
+  }
+
+  // If a slug is provided, filter the entries by slug
+  // if (slug) {
+  //   const filteredPage = pageData.find(
+  //     (entry: any) => entry.fields.slug === slug
+  //   );
+  //   return filteredPage ? filteredPage.fields : null;
+  // }
+
+  // If no slug is provided, return the first entry
   return pageData.length > 0 ? pageData[0].fields : null;
 };
-
-// /* eslint-disable */
 
 // import { fetchData } from "../lib/contentful";
 // import {

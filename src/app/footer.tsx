@@ -7,7 +7,7 @@ import getNavMenuItems from "./components/getNavmenu";
 
 const Footer = () => {
   const [year, setYear] = useState(new Date().getFullYear());
-  const [footerTitle, setFooterTitle] = useState<string>("Simple is Key");
+  const [footerTitle, setFooterTitle] = useState<string>("");
 
   useEffect(() => {
     const fetchMenuItems = async () => {

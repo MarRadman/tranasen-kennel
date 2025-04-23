@@ -1,15 +1,16 @@
-import { getPageContent } from "./components/getPageContent";
+import { getPageContent } from "../components/getPageContent";
 import { Box, Typography, CardMedia } from "@mui/material";
+// import { HomePageData } from "@/app/types";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
-const FrontPage = async () => {
-  const pageData = (await getPageContent("frontpage")) as any;
+const HomePage = async () => {
+  const pageData = (await getPageContent("homepage")) as any;
 
   if (!pageData) {
     return <Typography variant="h1">Homepage content not found</Typography>;
   }
 
-  const { title, description, heroImage } = pageData;
+  const { description, heroImage } = pageData;
   const imageUrl = Array.isArray(heroImage) ? heroImage[0] : heroImage;
 
   const imageUrlImage = heroImage?.fields?.file?.url
@@ -26,18 +27,6 @@ const FrontPage = async () => {
         minHeight: "100vh",
         p: 3,
       }}>
-      <Typography
-        variant="h2"
-        component="h2"
-        gutterBottom
-        sx={{
-          textAlign: "center",
-          mb: 3,
-          fontSize: { xs: "2rem", sm: "3rem", md: "4rem" },
-          animation: "fadeIn 2s",
-        }}>
-        {title}
-      </Typography>
       <CardMedia
         component="img"
         alt={imageUrl.title}
@@ -62,4 +51,4 @@ const FrontPage = async () => {
   );
 };
 
-export default FrontPage;
+export default HomePage;
