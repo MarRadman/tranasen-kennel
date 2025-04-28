@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import getNavMenuItems from "./components/getNavmenu";
+import Link from "next/link";
 
 const Footer = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -30,8 +31,20 @@ const Footer = () => {
         variant="subtitle1"
         align="center"
         color="secondary"
-        component="p">
-        © {year} {footerTitle}. All rights reserved.
+        component="div">
+        © 2025 {footerTitle}. All rights reserved.
+        <Typography
+          sx={{
+            fontSize: "0.8rem",
+            marginTop: "0.5rem",
+            color: "#888",
+          }}
+          variant="body2"
+          align="center"
+          component="div">
+          Developed by{" "}
+          <Link href="https://github.com/MarRadman">MarRadman</Link>
+        </Typography>
       </Typography>
     </Box>
   );

@@ -4,11 +4,10 @@ import { NavMenuData, NavMenuItem } from "@/app/types";
 const getNavMenuItems = async (): Promise<NavMenuData> => {
   try {
     const data = await fetchData("navigationMenu");
-    console.log("Navigation menu data:", JSON.stringify(data, null, 2));
 
     if (!data || data.length === 0) {
       console.error("No navigation menu data found");
-      // return { title: "", items: [] };
+      return { title: "", items: [] };
     }
 
     const title =

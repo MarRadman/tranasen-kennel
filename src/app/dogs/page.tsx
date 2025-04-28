@@ -4,14 +4,14 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
 
-const HomePage = async () => {
-  const pageData = (await getPageContent("homepage")) as any;
+const Dog = async () => {
+  const pageData = (await getPageContent("dog")) as any;
 
   if (!pageData) {
-    return <Typography variant="h1">Homepage content not found</Typography>;
+    return <Typography variant="h1">Contact Info content not found</Typography>;
   }
 
-  const { description, heroImage } = pageData;
+  const { title, description, heroImage } = pageData;
   const imageUrl = heroImage?.fields?.file?.url
     ? `https:${heroImage.fields.file.url}`
     : null;
@@ -27,13 +27,25 @@ const HomePage = async () => {
           minHeight: "100vh",
           p: 3,
         }}>
+        <Typography
+          variant="h2"
+          component="h2"
+          gutterBottom
+          sx={{
+            textAlign: "center",
+            mb: 3,
+            fontSize: { xs: "2rem", sm: "3rem", md: "4rem" },
+            animation: "fadeIn 2s",
+          }}>
+          {title}
+        </Typography>
         {imageUrl && (
           <CardMedia
             component="img"
             alt={heroImage.title}
             image={imageUrl}
             sx={{
-              width: "100%",
+              width: { xs: "90%", sm: "80%", md: "70%", lg: "60%", xl: "50%" },
               height: "auto",
               mb: 3,
               boxShadow: 3,
@@ -54,4 +66,4 @@ const HomePage = async () => {
   );
 };
 
-export default HomePage;
+export default Dog;

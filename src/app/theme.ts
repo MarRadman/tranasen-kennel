@@ -1,20 +1,20 @@
 import { createTheme } from "@mui/material/styles";
-import { grey, red } from "@mui/material/colors";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: grey[200], // Primary color (Teal)
+      main: "#8B5E3C", // Brun som huvudfärg
     },
     secondary: {
-      main: red[300], // Secondary color (Light Grey)
+      main: "#8B5E3C", // Ljus beige som sekundärfärg
     },
     background: {
-      default: grey[100], // Background color (Light Grey)
+      default: "#FAF0E6", // Linen - supermjuk ljusbrun/beige
     },
+
     text: {
-      primary: grey[900], // Primary text color (Dark Grey)
-      secondary: grey[600], // Secondary text color (Medium Grey)
+      primary: "#3E2C23", // Nästan svart brun för text
+      secondary: "#7B5E57", // Ljusare brun för sekundärtext
     },
   },
   typography: {
@@ -22,7 +22,7 @@ const theme = createTheme({
     h1: {
       fontSize: "2.5rem",
       fontWeight: "bold",
-      color: red[300],
+      color: "#8B5E3C",
       [`@media (min-width:600px)`]: {
         fontSize: "3rem",
       },
@@ -33,7 +33,7 @@ const theme = createTheme({
     h2: {
       fontSize: "2rem",
       fontWeight: "bold",
-      color: red[300],
+      color: "#8B5E3C",
       [`@media (min-width:600px)`]: {
         fontSize: "2rem",
       },
@@ -42,12 +42,12 @@ const theme = createTheme({
       },
     },
     h5: {
-      color: red[300],
+      color: "#8B5E3C",
     },
     h6: {
       fontSize: "1.25rem",
       fontWeight: "bold",
-      color: red[300],
+      color: "#8B5E3C",
       [`@media (min-width:600px)`]: {
         fontSize: "1.5rem",
       },
@@ -57,7 +57,7 @@ const theme = createTheme({
     },
     body1: {
       fontSize: "1rem",
-      color: grey[900],
+      color: "#3E2C23",
       [`@media (min-width:600px)`]: {
         fontSize: "1.25rem",
       },
@@ -67,7 +67,7 @@ const theme = createTheme({
     },
     body2: {
       fontSize: "0.875rem",
-      color: grey[600],
+      color: "#7B5E57",
       [`@media (min-width:600px)`]: {
         fontSize: "1rem",
       },
@@ -77,7 +77,7 @@ const theme = createTheme({
     },
     subtitle1: {
       fontSize: "1.125rem",
-      color: grey[900],
+      color: "#3E2C23",
       [`@media (min-width:600px)`]: {
         fontSize: "1.25rem",
       },
@@ -90,20 +90,32 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: grey[100],
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+          backgroundColor: "#FAF0E6",
           fontFamily: "Montserrat, Arial, sans-serif",
         },
         ".navmenu": {
           textDecoration: "none",
           "& a": {
-            color: red[300],
+            color: "#8B5E3C",
             textDecoration: "none",
+          },
+          "& button": {
+            backgroundColor: "#8B5E3C",
+            color: "#FFFFFF",
+            borderRadius: 10,
+            "&:hover": {
+              backgroundColor: "#6A452E",
+            },
           },
         },
         img: {
+          marginTop: "5%",
           width: "100%",
           height: "auto",
-          maxWidth: "500px",
+          maxWidth: "1000px",
         },
         ".center-content": {
           display: "flex",
@@ -123,6 +135,11 @@ const theme = createTheme({
         root: {
           textTransform: "none",
           borderRadius: 8,
+          backgroundColor: "#3E2C23",
+          color: "#FFFFFF",
+          "&:hover": {
+            backgroundColor: "#2A1E18",
+          },
         },
       },
     },

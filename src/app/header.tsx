@@ -42,8 +42,11 @@ const Header = () => {
   return (
     <Box className="navmenu" sx={{ flexGrow: 1 }}>
       <AppBar
-        position="static"
-        sx={{ background: "linear-gradient(to right, #ece9e6, #ffffff)" }}>
+        position="fixed"
+        sx={{
+          background: "linear-gradient(to right, #ece9e6, #ffffff)",
+          zIndex: theme.zIndex.appBar,
+        }}>
         <Toolbar>
           <Typography
             variant="h1"
@@ -56,7 +59,7 @@ const Header = () => {
               padding: "0.5rem 1rem",
               textAlign: "center",
             }}>
-            {navTitle}
+            <Link href="/">{navTitle}</Link>
           </Typography>
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           <IconButton
@@ -73,14 +76,21 @@ const Header = () => {
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}>
-            {menuItems.map((item) => (
-              <MenuItem key={item.link} onClick={handleMenuClose}>
-                <Link href={item.link}>{item.title}</Link>
-              </MenuItem>
-            ))}
+            {menuItems.length > 0 ? (
+              menuItems.map((item) => (
+                <MenuItem
+                  key={`${item.title}-${item.link}`}
+                  onClick={handleMenuClose}>
+                  <Link href={item.link}>{item.title}</Link>
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem disabled>No menu items</MenuItem>
+            )}
           </Menu>
         </Toolbar>
       </AppBar>
+      <Toolbar />
     </Box>
   );
 };
