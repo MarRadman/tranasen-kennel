@@ -115,7 +115,7 @@ const theme = createTheme({
           marginTop: "5%",
           width: "100%",
           height: "auto",
-          maxWidth: "1000px",
+          maxWidth: "750px",
         },
         ".center-content": {
           display: "flex",
