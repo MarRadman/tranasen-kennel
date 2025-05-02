@@ -1,12 +1,14 @@
-import { getPageContent } from "./components/getPageContent";
+import { getPageContent } from "./services/getPageContent";
 import { Box, Typography, CardMedia } from "@mui/material";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import LoadingData from "./components/getLoadingPage";
 import { Suspense } from "react";
 import Link from "next/link";
+// import { getVisitorCounter } from "@app/services/getVisitorCounter";
 
 const FrontPage = async () => {
   const pageData = (await getPageContent("frontpage")) as any;
+  // const visitorCounter = (await getVisitorCounter()) as number;
 
   if (!pageData) {
     return <Typography variant="h1">Homepage content not found</Typography>;
@@ -50,6 +52,13 @@ const FrontPage = async () => {
           sx={{ maxWidth: 800, mb: 3 }}>
           {documentToReactComponents(description)}
         </Typography>
+        {/* <Typography
+          variant="h6"
+          color="textPrimary"
+          align="center"
+          sx={{ mt: 3 }}>
+          Visitor Count: {visitorCounter}
+        </Typography> */}
       </Box>
     </Suspense>
   );

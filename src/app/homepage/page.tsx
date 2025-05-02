@@ -1,4 +1,4 @@
-import { getPageContent } from "../components/getPageContent";
+import { getPageContent } from "../services/getPageContent";
 import { Box, Typography, CardMedia } from "@mui/material";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import LoadingData from "../components/getLoadingPage";
@@ -11,9 +11,9 @@ const HomePage = async () => {
     return <Typography variant="h1">Homepage content not found</Typography>;
   }
 
-  const { description, heroImage } = pageData;
-  const imageUrl = heroImage?.fields?.file?.url
-    ? `https:${heroImage.fields.file.url}`
+  const { description, heroImages } = pageData;
+  const imageUrl = heroImages?.fields?.file?.url
+    ? `https:${heroImages.fields.file.url}`
     : null;
 
   return (
@@ -27,21 +27,30 @@ const HomePage = async () => {
           minHeight: "100vh",
           p: 3,
         }}>
-        {imageUrl && (
-          <CardMedia
-            component="img"
-            alt={heroImage.title}
-            image={imageUrl}
-            sx={{
-              width: "100%",
-              height: "auto",
-              mb: 3,
-              boxShadow: 3,
-              borderRadius: 2,
-              animation: "zoomIn 2s",
-            }}
-          />
-        )}
+        {heroImages?.map((image: any, index: number) => {
+          const imageUrl = image?.fields?.file?.url
+            ? `https:${image.fields.file.url}`
+            : null;
+
+          return (
+            imageUrl && (
+              <CardMedia
+                key={index}
+                component="img"
+                alt={image.fields.title || `Image ${index + 1}`}
+                image={imageUrl}
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                  mb: 3,
+                  boxShadow: 3,
+                  borderRadius: 2,
+                  animation: "zoomIn 2s",
+                }}
+              />
+            )
+          );
+        })}
         <Typography
           variant="body1"
           color="textSecondary"
