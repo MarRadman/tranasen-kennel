@@ -1,4 +1,3 @@
-import { getPageContent } from "../../services/getPageContent";
 import { Box, Typography, CardMedia } from "@mui/material";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import LoadingData from "../../components/getLoadingPage";
