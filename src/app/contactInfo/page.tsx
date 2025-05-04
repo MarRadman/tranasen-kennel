@@ -1,20 +1,26 @@
-import { getPageContent } from "../services/getPageContent";
-import { Box, Typography, CardMedia } from "@mui/material";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { getPageContent } from "../services/helpers";
+import { Box, Typography } from "@mui/material";
+// import { Box, Typography, CardMedia } from "@mui/material";
+// import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
+import { ContactPageData } from "@app/types";
 
 const ContactInfo = async () => {
-  const pageData = (await getPageContent("contactInfo")) as any;
+  const pageData = (await getPageContent(
+    "contactInfo"
+  )) as unknown as ContactPageData;
 
   if (!pageData) {
     return <Typography variant="h1">Contact Info content not found</Typography>;
   }
 
-  const { title, content, heroImage } = pageData;
-  const imageUrl = heroImage?.fields?.file?.url
-    ? `https:${heroImage.fields.file.url}`
-    : null;
+  // const { title, content, heroImage } = pageData;
+
+  const { title } = pageData;
+  // const imageUrl = heroImage?.fields?.file?.url
+  //   ? `https:${heroImage.fields.file.url}`
+  //   : null;
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -39,7 +45,7 @@ const ContactInfo = async () => {
           }}>
           {title}
         </Typography>
-        {imageUrl && (
+        {/* {imageUrl && (
           <CardMedia
             component="img"
             alt={heroImage.title}
@@ -53,14 +59,14 @@ const ContactInfo = async () => {
               animation: "zoomIn 2s",
             }}
           />
-        )}
-        <Typography
+        )} */}
+        {/* <Typography
           variant="body1"
           color="textSecondary"
           align="center"
           sx={{ maxWidth: 800, mb: 3 }}>
           {documentToReactComponents(content)}
-        </Typography>
+        </Typography> */}
       </Box>
     </Suspense>
   );

@@ -1,4 +1,4 @@
-import { getPageContent } from "../services/getPageContent";
+import { getPageContent, extractImages } from "../services/helpers";
 import { Box, Typography, CardMedia } from "@mui/material";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import LoadingData from "../components/getLoadingPage";
@@ -12,9 +12,9 @@ const HomePage = async () => {
   }
 
   const { description, heroImages } = pageData;
-  const imageUrl = heroImages?.fields?.file?.url
-    ? `https:${heroImages.fields.file.url}`
-    : null;
+
+  // Use extractImages to get the image URLs
+  const imageUrls = extractImages(heroImages);
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -27,30 +27,6 @@ const HomePage = async () => {
           minHeight: "100vh",
           p: 3,
         }}>
-        {heroImages?.map((image: any, index: number) => {
-          const imageUrl = image?.fields?.file?.url
-            ? `https:${image.fields.file.url}`
-            : null;
-
-          return (
-            imageUrl && (
-              <CardMedia
-                key={index}
-                component="img"
-                alt={image.fields.title || `Image ${index + 1}`}
-                image={imageUrl}
-                sx={{
-                  width: "100%",
-                  height: "auto",
-                  mb: 3,
-                  boxShadow: 3,
-                  borderRadius: 2,
-                  animation: "zoomIn 2s",
-                }}
-              />
-            )
-          );
-        })}
         <Typography
           variant="body1"
           color="textSecondary"
@@ -58,6 +34,22 @@ const HomePage = async () => {
           sx={{ maxWidth: 800, mb: 3 }}>
           {documentToReactComponents(description)}
         </Typography>
+        {imageUrls.map((url, index) => (
+          <CardMedia
+            key={index}
+            component="img"
+            alt={`Image ${index + 1}`}
+            image={url}
+            sx={{
+              width: "100%",
+              height: "auto",
+              mb: 3,
+              boxShadow: 3,
+              borderRadius: 2,
+              animation: "zoomIn 2s",
+            }}
+          />
+        ))}
       </Box>
     </Suspense>
   );

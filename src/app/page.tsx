@@ -1,4 +1,4 @@
-import { getPageContent } from "./services/getPageContent";
+import { getPageContent } from "./services/helpers";
 import { Box, Typography, CardMedia } from "@mui/material";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import LoadingData from "./components/getLoadingPage";
@@ -52,13 +52,6 @@ const FrontPage = async () => {
           sx={{ maxWidth: 800, mb: 3 }}>
           {documentToReactComponents(description)}
         </Typography>
-        {/* <Typography
-          variant="h6"
-          color="textPrimary"
-          align="center"
-          sx={{ mt: 3 }}>
-          Visitor Count: {visitorCounter}
-        </Typography> */}
       </Box>
     </Suspense>
   );

@@ -1,12 +1,16 @@
-import { Box, Typography, CardMedia } from "@mui/material";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
+import { getDogCategories } from "../services/helpers";
 import Link from "next/link";
-import { getDogCategories } from "../services/getDogCategories";
+import Image from "next/image";
 
-const Dogs = async () => {
+const AllDogCategories = async () => {
   const categories = await getDogCategories();
+
+  if (!categories) {
+    return <Typography component={"h3"}>Kategori kunde inte hittas</Typography>;
+  }
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -20,16 +24,35 @@ const Dogs = async () => {
           p: 3,
         }}>
         <Typography variant="h2">Alla Hundkategorier</Typography>
-        <ul>
+        <Image
+          src="/homePageImages/firstHomePageImage.svg"
+          alt="Description of the image"
+          width={300}
+          height={200}
+        />
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 2,
+          }}>
           {categories.map((dog) => (
-            <li key={dog.slug}>
-              <Link href={`/dogs/${dog.slug}`}>{dog.title}</Link>
-            </li>
+            <ListItem
+              key={dog.slug}
+              component={Link}
+              href={`/dogs/${dog.slug}`}
+              sx={{
+                width: "auto",
+              }}>
+              <ListItemText primary={dog.title} />
+            </ListItem>
           ))}
-        </ul>
+        </List>
       </Box>
     </Suspense>
   );
 };
 
-export default Dogs;
+export default AllDogCategories;

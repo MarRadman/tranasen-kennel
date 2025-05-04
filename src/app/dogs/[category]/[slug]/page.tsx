@@ -1,13 +1,34 @@
-import { Box, Typography, CardMedia } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import LoadingData from "../../../components/getLoadingPage";
 import { Suspense } from "react";
-import { getDogBySlug } from "@/app/services/getDogBySlug";
+import Image from "next/image";
+import { extractImages, getDogBySlug } from "@/app/services/helpers";
 
-const DogDetails = async ({ params }: { params: { dog: string } }) => {
-  const dog = await getDogBySlug(params.dog);
+const DogDetails = async ({
+  params,
+}: {
+  params: { category: string; slug: string };
+}) => {
+  const { slug } = await params;
 
-  if (!dog) return <h3>Hunden kunde inte hittas</h3>;
+  if (!slug) {
+    console.error("No slug provided in params");
+    return <h3>Hunden kunde inte hittas</h3>;
+  }
+
+  const dog = (await getDogBySlug(slug)) as {
+    name?: string;
+    images?: { fields: { file: { url: string } } }[];
+    description?: string;
+  };
+
+  if (!dog) {
+    console.error("No dog found for slug:", slug);
+    return <h3>Hunden kunde inte hittas</h3>;
+  }
+
+  const images = extractImages(dog.images);
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -20,11 +41,27 @@ const DogDetails = async ({ params }: { params: { dog: string } }) => {
           minHeight: "100vh",
           p: 3,
         }}>
-        <h2>{dog.name}</h2>
-        {dog.image && (
-          <img src={`https:${dog.image.fields.file.url}`} alt={dog.name} />
+        <Typography component={"h2"}>
+          {dog.name ? String(dog.name) : "Namn saknas"}
+        </Typography>
+        {images.length > 0 ? (
+          images.map((url, index) => (
+            <Image
+              key={index}
+              width={500}
+              height={500}
+              src={url}
+              alt={dog.name ? String(dog.name) : `Dog image ${index + 1}`}
+            />
+          ))
+        ) : (
+          <p>Inga bilder tillgängliga</p>
         )}
-        <div>{documentToReactComponents(dog.description)}</div>
+        <div>
+          {dog.description
+            ? documentToReactComponents(dog.description as any)
+            : "Beskrivning saknas"}
+        </div>
       </Box>
     </Suspense>
   );
