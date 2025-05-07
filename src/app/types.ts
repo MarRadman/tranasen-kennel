@@ -23,3 +23,18 @@ export interface NavMenuData {
   title: string;
   items: NavMenuItem[];
 }
+
+export interface Dog {
+  name?: string;
+  slug?: string;
+  images?: Array<{ fields: { file: { url: string } } }>;
+  description?: { data: JSON; content: string[]; nodeType: string };
+  category?: string;
+  birthdate?: string;
+  dogColor?: string;
+  dogAncestorTree?: Array<{
+    metadata: any;
+    sys: any;
+    fields: any;
+  }>;
+}

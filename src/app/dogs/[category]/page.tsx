@@ -13,8 +13,6 @@ const DogsCategories = async ({ params }: { params: { category: string } }) => {
 
   const dogCategories = await getDogsInCategory(category);
 
-  console.log("Dog info: ", dogCategories);
-
   return (
     <Suspense fallback={<LoadingData />}>
       <Box
