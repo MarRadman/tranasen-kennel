@@ -50,7 +50,7 @@ const FrontPage = async () => {
           color="textSecondary"
           align="center"
           sx={{ maxWidth: 800, mb: 3 }}>
-          {documentToReactComponents(description)}
+          {documentToReactComponents(description) as any}
         </Typography>
       </Box>
     </Suspense>

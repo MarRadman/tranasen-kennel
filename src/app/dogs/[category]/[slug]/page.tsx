@@ -6,6 +6,45 @@ import Image from "next/image";
 import { extractImages, getDogBySlug } from "@/app/services/helpers";
 import { Dog } from "@app/types";
 
+interface dogAncestorTree {
+  ancestor: {
+    children: string;
+  };
+  level: number;
+  fields: {
+    name: string;
+    color: string;
+    relationType: string;
+  };
+  color: string;
+  children?: dogAncestorTree[];
+}
+
+const renderRelation = (relationType: string, ancestors: any[]) => {
+  const filteredAncestors = ancestors.filter(
+    (ancestor) => ancestor.fields.relationType === relationType
+  );
+
+  return filteredAncestors.map((ancestor, index) => (
+    <Box
+      key={index}
+      sx={{
+        backgroundColor: ancestor.fields.color || "#f5f5f5",
+        padding: 2,
+        borderRadius: 2,
+        border: "1px solid #ccc",
+        textAlign: "center",
+        minWidth: 200,
+        margin: 1,
+      }}>
+      <Typography variant="subtitle2" fontWeight="bold">
+        {ancestor.fields.relationType}
+      </Typography>
+      <Typography>{ancestor.fields.name}</Typography>
+    </Box>
+  ));
+};
+
 const DogDetails = async ({
   params,
 }: {
@@ -20,11 +59,9 @@ const DogDetails = async ({
 
   const dog = (await getDogBySlug(slug)) as Dog;
 
-  console.log("Ancestory tree data: ", dog.dogAncestorTree);
-
   if (!dog) {
     console.error("No dog found for slug:", slug);
-    return <h3>Hunden kunde inte hittas</h3>;
+    return <Typography component={"h2"}>Hunden kunde inte hittas</Typography>;
   }
 
   const images = extractImages(dog.images);
@@ -40,13 +77,14 @@ const DogDetails = async ({
           minHeight: "100vh",
           p: 3,
         }}>
-        <Typography component={"h2"}>
+        <Typography variant="h2">
           {dog.name ? dog.name : "Namn saknas"}
         </Typography>
-        <Typography component={"h3"}>{dog.birthdate}</Typography>
+        <Typography variant="h2">{dog.birthdate}</Typography>
         {images.length > 0 ? (
           images.map((url, index) => (
             <Image
+              loading="lazy"
               key={index}
               width={500}
               height={500}
@@ -57,67 +95,155 @@ const DogDetails = async ({
         ) : (
           <p>Inga bilder tillgängliga</p>
         )}
-        <div>
-          {dog.description
-            ? documentToReactComponents(dog.description as Any)
-            : "Beskrivning saknas"}
-        </div>
+        <Typography>
+          {documentToReactComponents(dog.description as any)}
+        </Typography>
       </Box>
       <Box
         sx={{
-          marginTop: 4,
-          padding: 2,
-          border: "1px solid #ccc",
-          borderRadius: "8px",
+          padding: 4,
           display: "flex",
           flexDirection: "column",
         }}>
         <Typography
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
           variant="h2"
           fontWeight="bold"
-          gutterBottom>
+          gutterBottom
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}>
           Stamtavla
         </Typography>
+
         {dog.dogAncestorTree && dog.dogAncestorTree.length > 0 ? (
-          dog.dogAncestorTree.map((ancestor, index) => (
-            <Grid
-              key={index}
-              container
-              spacing={2}
+          <>
+            <Box
               sx={{
-                marginBottom: 2,
-                padding: 2,
-                backgroundColor: ancestor.fields.color || "#f9f9f9",
-                border: "solid blue 1px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
               }}>
-              {ancestor.fields.relationType === "Fader/Sire" && (
-                <Grid sx={{ border: "solid red 1px" }}>
-                  <Typography variant="subtitle1" fontWeight="bold">
-                    {ancestor.fields.relationType}
-                  </Typography>
-                  <Typography>{ancestor.fields.name}</Typography>
-                  <Typography>{ancestor.fields.color}</Typography>
-                  {ancestor.fields.relationType === "Farfar/Sire Grandsire" && (
-                    <Grid>
-                      <Typography variant="subtitle1" fontWeight="bold">
-                        {ancestor.fields.relationType}
-                      </Typography>
-                      <Typography>{ancestor.fields.name}</Typography>
-                      <Typography>{ancestor.fields.color}</Typography>
-                    </Grid>
-                  )}
+              {/* Fader och hans träd */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: 4,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                }}>
+                {/* Fader */}
+                <Grid
+                  container
+                  spacing={2}
+                  sx={{
+                    alignItems: "center",
+                  }}>
+                  <Grid size={3}>
+                    {renderRelation("Fader/Sire", dog.dogAncestorTree)}
+                  </Grid>
+
+                  {/* Farföräldrar */}
+                  <Grid size={3}>
+                    {renderRelation(
+                      "Farfar/Sire Grandsire",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Farmor/Sire Granddam",
+                      dog.dogAncestorTree
+                    )}
+                  </Grid>
+
+                  {/* Farfars föräldrar */}
+                  <Grid size={3}>
+                    {renderRelation(
+                      "Farfars far/Sire Grandsire Father",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Farfars mor/Sire Grandsire Mother",
+                      dog.dogAncestorTree
+                    )}
+                  </Grid>
+
+                  {/* Farmors föräldrar */}
+                  <Grid size={3}>
+                    {renderRelation(
+                      "Farmors far/Sire Granddam Father",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Farmors mor/Sire Granddam Mother",
+                      dog.dogAncestorTree
+                    )}
+                  </Grid>
                 </Grid>
-              )}
-            </Grid>
-          ))
+              </Box>
+
+              {/* Moder och hennes träd */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  marginTop: 4,
+                  width: "100%",
+                }}>
+                {/* Moder */}
+                <Grid
+                  container
+                  spacing={3}
+                  sx={{
+                    alignItems: "center",
+                    width: "100%",
+                  }}>
+                  <Grid size={3}>
+                    {renderRelation("Moder/Dam", dog.dogAncestorTree)}
+                  </Grid>
+
+                  {/* Morföräldrar */}
+                  <Grid size={3}>
+                    {renderRelation(
+                      "Morfar/Dam Grandsire",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation("Mormor/Dam Granddam", dog.dogAncestorTree)}
+                  </Grid>
+
+                  {/* Morfars föräldrar */}
+                  <Grid size={3}>
+                    {renderRelation(
+                      "Morfars far/Dam Grandsire Father",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Morfars mor/Dam Grandsire Mother",
+                      dog.dogAncestorTree
+                    )}
+                  </Grid>
+
+                  {/* Mormors föräldrar */}
+                  <Grid size={3}>
+                    {renderRelation(
+                      "Mormors far/Dam Granddam Father",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Mormors mor/Dam Granddam Mother",
+                      dog.dogAncestorTree
+                    )}
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </>
         ) : (
-          <Typography>No ancestor data available</Typography>
+          <Typography variant="body1">Ingen stamtavla tillgänglig</Typography>
         )}
       </Box>
     </Suspense>
