@@ -104,7 +104,6 @@ const DogDetails = async ({
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh",
           textAlign: "center",
           padding: 3,
         }}>
@@ -144,16 +143,6 @@ const DogDetails = async ({
             display: "flex",
             flexDirection: "column",
           }}>
-          <Typography
-            variant="h2"
-            fontWeight="bold"
-            gutterBottom
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}>
-            Stamtavla
-          </Typography>
           <Box
             sx={{
               border: "2px solid #ccc",
@@ -162,6 +151,16 @@ const DogDetails = async ({
               marginBottom: 4,
               backgroundColor: "#f9f9f9",
             }}>
+            <Typography
+              variant="h2"
+              fontWeight="bold"
+              gutterBottom
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}>
+              Stamtavla
+            </Typography>
             {/* Fader och hans träd */}
             <Box
               sx={{
