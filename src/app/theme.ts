@@ -38,14 +38,33 @@ const theme = createTheme({
         fontSize: "2rem",
       },
       [`@media (min-width:960px)`]: {
-        fontSize: "2.5rem",
+        fontSize: "3rem",
+      },
+    },
+    h3: {
+      fontSize: "1.75rem",
+      fontWeight: "bold",
+      color: "#8B5E3C",
+      [`@media (min-width:600px)`]: {
+        fontSize: "2rem",
+      },
+      [`@media (min-width:960px)`]: {
+        fontSize: "2.25rem",
+      },
+    },
+    h4: {
+      fontSize: "1.5rem",
+      fontWeight: "bold",
+      color: "#8B5E3C",
+      [`@media (min-width:600px)`]: {
+        fontSize: "1.75rem",
+      },
+      [`@media (min-width:960px)`]: {
+        fontSize: "2rem",
       },
     },
     h5: {
-      color: "#8B5E3C",
-    },
-    h6: {
-      fontSize: "1.25rem",
+      fontSize: "1.375rem",
       fontWeight: "bold",
       color: "#8B5E3C",
       [`@media (min-width:600px)`]: {
@@ -55,14 +74,25 @@ const theme = createTheme({
         fontSize: "1.75rem",
       },
     },
-    body1: {
-      fontSize: "1rem",
-      color: "#3E2C23",
+    h6: {
+      fontSize: "1.25rem",
+      fontWeight: "bold",
+      color: "#8B5E3C",
       [`@media (min-width:600px)`]: {
         fontSize: "1.25rem",
       },
       [`@media (min-width:960px)`]: {
         fontSize: "1.5rem",
+      },
+    },
+    body1: {
+      fontSize: "1rem",
+      color: "#3E2C23",
+      [`@media (min-width:600px)`]: {
+        fontSize: "1.125rem",
+      },
+      [`@media (min-width:960px)`]: {
+        fontSize: "1.25rem",
       },
     },
     body2: {
@@ -116,6 +146,8 @@ const theme = createTheme({
           width: "100%",
           height: "auto",
           maxWidth: "750px",
+          borderRadius: "10px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
         },
         ".center-content": {
           display: "flex",
