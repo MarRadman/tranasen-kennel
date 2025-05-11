@@ -11,25 +11,16 @@ import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
 import { useTheme } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import { useState, useEffect } from "react";
-import getNavMenuItems from "./components/getNavmenu";
+import { useState } from "react";
 
-const Header = () => {
+interface HeaderProps {
+  navTitle: string;
+  menuItems: { title: string; link: string }[];
+}
+
+const Header = ({ navTitle, menuItems }: HeaderProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [menuItems, setMenuItems] = useState<{ title: string; link: string }[]>(
-    []
-  );
-  const [navTitle, setNavTitle] = useState<string>("");
   const theme = useTheme();
-
-  useEffect(() => {
-    const fetchMenuItems = async () => {
-      const { title, items } = await getNavMenuItems();
-      setMenuItems(items);
-      setNavTitle(title);
-    };
-    fetchMenuItems();
-  }, []);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,7 +31,7 @@ const Header = () => {
   };
 
   return (
-    <Box className="navmenu" sx={{ flexGrow: 1 }}>
+    <Box className="navmenu">
       <AppBar
         position="fixed"
         sx={{

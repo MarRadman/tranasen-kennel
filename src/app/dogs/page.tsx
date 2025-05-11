@@ -23,7 +23,9 @@ const AllDogCategories = async () => {
           minHeight: "100vh",
           p: 3,
         }}>
-        <Typography variant="h2">Alla Hundkategorier</Typography>
+        <Typography component="h2" variant="h2">
+          Alla Hundkategorier
+        </Typography>
         <Image
           src="/homePageImages/firstHomePageImage.svg"
           alt="Description of the image"
@@ -33,10 +35,13 @@ const AllDogCategories = async () => {
         <List
           sx={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: {
+              xs: "column",
+              sm: "row",
+            },
             justifyContent: "center",
             alignItems: "center",
-            gap: 2,
+            width: "100%",
           }}>
           {categories.map((dog) => (
             <ListItem

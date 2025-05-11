@@ -7,7 +7,6 @@ import getNavMenuItems from "./components/getNavmenu";
 import Link from "next/link";
 
 const Footer = () => {
-  const [year, setYear] = useState(new Date().getFullYear());
   const [footerTitle, setFooterTitle] = useState<string>("");
 
   useEffect(() => {
@@ -16,10 +15,6 @@ const Footer = () => {
       setFooterTitle(title);
     };
     fetchMenuItems();
-  }, []);
-
-  useEffect(() => {
-    setYear(new Date().getFullYear());
   }, []);
 
   return (

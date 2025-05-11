@@ -27,13 +27,7 @@ const HomePage = async () => {
           minHeight: "100vh",
           p: 3,
         }}>
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          align="center"
-          sx={{ maxWidth: 800, mb: 3 }}>
-          {documentToReactComponents(description) as any}
-        </Typography>
+        {documentToReactComponents(description) as string}
         {imageUrls.map((url, index) => (
           <CardMedia
             key={index}

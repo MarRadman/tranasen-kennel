@@ -31,7 +31,7 @@ const theme = createTheme({
       },
     },
     h2: {
-      fontSize: "2rem",
+      fontSize: "1.75rem",
       fontWeight: "bold",
       color: "#8B5E3C",
       [`@media (min-width:600px)`]: {
@@ -171,6 +171,49 @@ const theme = createTheme({
           color: "#FFFFFF",
           "&:hover": {
             backgroundColor: "#2A1E18",
+          },
+        },
+      },
+    },
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px",
+          backgroundColor: "#FAF0E6",
+          "&:hover": {
+            backgroundColor: "#E0D4C3",
+          },
+          padding: "8px 16px",
+          [`@media (min-width:600px)`]: {
+            padding: "12px 20px",
+          },
+          [`@media (min-width:960px)`]: {
+            padding: "16px 24px",
+          },
+        },
+      },
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          fontSize: "1rem",
+          fontWeight: "bold",
+          color: "#3E2C23",
+          [`@media (min-width:600px)`]: {
+            fontSize: "1.25rem",
+          },
+          [`@media (min-width:960px)`]: {
+            fontSize: "1.5rem",
+          },
+        },
+        secondary: {
+          fontSize: "0.875rem",
+          color: "#7B5E57",
+          [`@media (min-width:600px)`]: {
+            fontSize: "1rem",
+          },
+          [`@media (min-width:960px)`]: {
+            fontSize: "1.125rem",
           },
         },
       },

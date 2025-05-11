@@ -21,7 +21,11 @@ export const getDogsInCategory = async (slug: string) => {
   return dogs.map((dog: any) => ({
     name: dog.fields.name,
     slug: dog.fields.slug,
-    image: dog.fields.image,
+    image: dog.fields.image?.fields?.file?.url
+      ? dog.fields.image.fields.file.url.startsWith("//")
+        ? `https:${dog.fields.image.fields.file.url}`
+        : dog.fields.image.fields.file.url
+      : null, // Handle cases where the image might not exist
   }));
 };
 

@@ -1,34 +1,32 @@
-"use client";
-
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import theme from "./theme";
+import ThemeRegistry from "./components/themeRegistry";
 import Header from "./header";
 import Footer from "./footer";
+import getNavMenuItems from "./components/getNavmenu";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  // Fetch navigation menu data server-side
+  const { title, items } = await getNavMenuItems();
+
   return (
     <html lang="se">
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Headless CMS Project" />
+        <meta name="description" content="Tranasens Hundkennel" />
         <meta name="keywords" content="NEXT.TS, Contentful" />
         <meta name="author" content="Martin" />
-        {/* <link rel="canonical" href="" /> */}
         <title>Tranåsens Hundkennel</title>
       </head>
       <body>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Header />
+        <ThemeRegistry>
+          <Header navTitle={title} menuItems={items} />
           {children}
           <Footer />
-        </ThemeProvider>
+        </ThemeRegistry>
       </body>
     </html>
   );

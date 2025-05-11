@@ -122,16 +122,74 @@ const DogDetails = async ({
           {documentToReactComponents(dog.description as any)}
         </Typography>
         {images.length > 0 ? (
-          images.map((url, index) => (
-            <Image
-              loading="lazy"
-              key={index}
-              width={500}
-              height={500}
-              src={url}
-              alt={dog.name ? dog.name : `Dog image ${index + 1}`}
-            />
-          ))
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 3,
+              width: "100%",
+            }}>
+            {/* First Image */}
+            <Box
+              sx={{
+                width: "100%",
+                maxWidth: "700px",
+                position: "relative",
+                overflow: "hidden",
+                borderRadius: "8px",
+              }}>
+              <Image
+                src={images[0]}
+                alt={dog.name ? dog.name : `Dog image 1`}
+                width={700}
+                height={500}
+                style={{
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "auto",
+                }}
+              />
+            </Box>
+
+            {/* Grid for Remaining Images */}
+            {images.length > 1 && (
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "1fr", // Single column on small screens
+                    sm: "repeat(2, 1fr)", // Two columns on small screens
+                    md: "repeat(3, 1fr)", // Three columns on medium screens and above
+                  },
+                  gap: 2,
+                  width: "100%",
+                  maxWidth: "700px",
+                }}>
+                {images.slice(1).map((url, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      position: "relative",
+                      overflow: "hidden",
+                      borderRadius: "8px",
+                    }}>
+                    <Image
+                      src={url}
+                      alt={dog.name ? dog.name : `Dog image ${index + 2}`}
+                      width={200}
+                      height={200}
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "auto",
+                      }}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </Box>
         ) : (
           <p>Inga bilder tillgängliga</p>
         )}

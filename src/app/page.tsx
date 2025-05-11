@@ -41,7 +41,6 @@ const FrontPage = async () => {
               mb: 3,
               boxShadow: 3,
               borderRadius: 2,
-              animation: "zoomIn 2s",
             }}
           />
         </Link>

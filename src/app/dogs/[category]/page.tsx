@@ -3,6 +3,22 @@ import LoadingData from "../../components/getLoadingPage";
 import { Suspense } from "react";
 import { getDogsInCategory } from "@/app/services/helpers";
 import Link from "next/link";
+import Image from "next/image";
+
+const checkDogCategory = (category: any) => {
+  switch (category) {
+    case "tik":
+      return `Tikar`;
+    case "valp":
+      return `Valpar`;
+    case "hane":
+      return `Hanar`;
+    case "hundar-vi-minns":
+      return "Hundar vi minns";
+    default:
+      return category;
+  }
+};
 
 const DogsCategories = async ({ params }: { params: { category: string } }) => {
   const { category } = await params;
@@ -12,6 +28,8 @@ const DogsCategories = async ({ params }: { params: { category: string } }) => {
   }
 
   const dogCategories = await getDogsInCategory(category);
+
+  console.log("Dog categories data:", dogCategories);
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -24,11 +42,16 @@ const DogsCategories = async ({ params }: { params: { category: string } }) => {
           minHeight: "100vh",
           p: 3,
         }}>
-        <Typography component={"h2"}>Hundar i denna kategori</Typography>
+        <Typography variant="h2" component={"h2"}>
+          {checkDogCategory(category)}
+        </Typography>
         <List
           sx={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: {
+              xs: "column",
+              sm: "row",
+            },
             justifyContent: "center",
             alignItems: "center",
             gap: 2,
@@ -39,8 +62,23 @@ const DogsCategories = async ({ params }: { params: { category: string } }) => {
               component={Link}
               href={`/dogs/${category}/${dog.slug}`}
               sx={{
-                width: "auto",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
               }}>
+              {dog.image && (
+                <Image
+                  src={dog.image}
+                  alt={dog.name}
+                  width={100}
+                  height={100}
+                  style={{
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  }}
+                />
+              )}
               <ListItemText primary={dog.name} />
             </ListItem>
           ))}
