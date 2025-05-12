@@ -37,7 +37,7 @@ const Footer = () => {
           variant="body2"
           align="center"
           component="div">
-          Developed by{" "}
+          Developed & maintained by{" "}
           <Link href="https://github.com/MarRadman">MarRadman</Link>
         </Typography>
       </Typography>

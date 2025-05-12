@@ -133,11 +133,11 @@ const theme = createTheme({
             textDecoration: "none",
           },
           "& button": {
-            backgroundColor: "#8B5E3C",
-            color: "#FFFFFF",
+            backgroundColor: "#white",
+            color: "black",
             borderRadius: 10,
             "&:hover": {
-              backgroundColor: "#6A452E",
+              backgroundColor: "#8B5E3C",
             },
           },
         },

@@ -1,75 +1,63 @@
-import { getPageContent } from "../services/helpers";
-import { Box, Typography } from "@mui/material";
-// import { Box, Typography, CardMedia } from "@mui/material";
-// import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import LoadingData from "../components/getLoadingPage";
-import { Suspense } from "react";
-import { ContactPageData } from "@app/types";
+import { Box, Typography, Avatar, Link, Paper } from "@mui/material";
+import { getPageContent } from "@app/services/helpers";
 
-const ContactInfo = async () => {
-  const pageData = (await getPageContent(
-    "contactInfo"
-  )) as unknown as ContactPageData;
+const Contact = async () => {
+  const pageData = (await getPageContent("contactInfo")) as any;
 
   if (!pageData) {
-    return <Typography variant="h1">Contact Info content not found</Typography>;
+    return <Typography variant="h1">Contact content not found</Typography>;
   }
 
-  // const { title, content, heroImage } = pageData;
+  const { image, address, email, phone } = pageData;
 
-  const { title } = pageData;
-  // const imageUrl = heroImage?.fields?.file?.url
-  //   ? `https:${heroImage.fields.file.url}`
-  //   : null;
+  const imageUrl = Array.isArray(image) ? image[0] : image;
 
   return (
-    <Suspense fallback={<LoadingData />}>
+    <Box
+      sx={{
+        p: 3,
+        minHeight: "100vh",
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
+      }}>
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
+          flexDirection: { xs: "column", md: "row" },
           alignItems: "center",
-          minHeight: "100vh",
-          p: 3,
+          justifyContent: "center",
+          gap: 3,
         }}>
-        <Typography
-          variant="h2"
-          component="h2"
-          gutterBottom
-          sx={{
-            textAlign: "center",
-            mb: 3,
-            fontSize: { xs: "2rem", sm: "3rem", md: "4rem" },
-            animation: "fadeIn 2s",
-          }}>
-          {title}
-        </Typography>
-        {/* {imageUrl && (
-          <CardMedia
-            component="img"
-            alt={heroImage.title}
-            image={imageUrl}
-            sx={{
-              width: { xs: "90%", sm: "80%", md: "70%", lg: "60%", xl: "50%" },
-              height: "auto",
-              mb: 3,
-              boxShadow: 3,
-              borderRadius: 2,
-              animation: "zoomIn 2s",
-            }}
-          />
-        )} */}
-        {/* <Typography
-          variant="body1"
-          color="textSecondary"
-          align="center"
-          sx={{ maxWidth: 800, mb: 3 }}>
-          {documentToReactComponents(content)}
-        </Typography> */}
+        <Avatar
+          alt="Profile Picture"
+          src={imageUrl}
+          sx={{ width: 300, height: 300, mb: { xs: 2, md: 0 } }}
+        />
+        <Paper elevation={3} sx={{ p: 3, flexGrow: 1, maxWidth: 600 }}>
+          <Typography variant="h6" gutterBottom>
+            Kontakt Information
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Adress: {address}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Email:{" "}
+            <Link color="secondary" href={`mailto:${email}`}>
+              {email}
+            </Link>
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Tele:{" "}
+            <Link color="secondary" href={`tel:${phone}`}>
+              {phone}
+            </Link>
+          </Typography>
+          <Box sx={{ display: "flex", gap: 2, mt: 2 }}></Box>
+        </Paper>
       </Box>
-    </Suspense>
+    </Box>
   );
 };
 
-export default ContactInfo;
+export default Contact;

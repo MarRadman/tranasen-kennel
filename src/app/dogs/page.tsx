@@ -23,7 +23,7 @@ const AllDogCategories = async () => {
           minHeight: "100vh",
           p: 3,
         }}>
-        <Typography component="h2" variant="h2">
+        <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
           Alla Hundkategorier
         </Typography>
         <Image
