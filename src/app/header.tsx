@@ -41,11 +41,9 @@ const Header = ({ navTitle, menuItems }: HeaderProps) => {
         <Toolbar>
           <Typography
             variant="h1"
-            component="div"
+            component="h1"
             sx={{
               flexGrow: 1,
-              fontSize: { xs: "2rem", sm: "3rem", md: "4rem" },
-              fontWeight: "bold",
               color: theme.palette.secondary.main,
               padding: "0.5rem 1rem",
               textAlign: "center",

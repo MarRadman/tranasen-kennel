@@ -1,5 +1,5 @@
 import { Box, Typography, Avatar, Link, Paper } from "@mui/material";
-import { getPageContent } from "@app/services/helpers";
+import { getPageContent, extractImages } from "@app/services/helpers";
 
 const Contact = async () => {
   const pageData = (await getPageContent("contactInfo")) as any;
@@ -10,7 +10,10 @@ const Contact = async () => {
 
   const { image, address, email, phone } = pageData;
 
-  const imageUrl = Array.isArray(image) ? image[0] : image;
+  const imageUrl = extractImages(image)[0];
+  if (!imageUrl) {
+    return imageUrl;
+  }
 
   return (
     <Box

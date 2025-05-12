@@ -16,16 +16,14 @@ export const getDogCategories = async () => {
 export const getDogsInCategory = async (slug: string) => {
   const categories = await fetchData("dogCategory", slug);
   const category = categories[0];
-  const dogs = category.fields.dogs || [];
+  const dogs = Array.isArray(category?.fields?.dogs)
+    ? category.fields.dogs
+    : [];
 
   return dogs.map((dog: any) => ({
     name: dog.fields.name,
     slug: dog.fields.slug,
-    image: dog.fields.image?.fields?.file?.url
-      ? dog.fields.image.fields.file.url.startsWith("//")
-        ? `https:${dog.fields.image.fields.file.url}`
-        : dog.fields.image.fields.file.url
-      : null, // Handle cases where the image might not exist
+    images: extractImages(dog.fields.image), // Use extractImages here
   }));
 };
 
@@ -74,4 +72,14 @@ export const getPageContent = async (
     console.error("Error fetching page content:", error);
     return null;
   }
+};
+
+// Fetch all news
+export const getAllNews = async () => {
+  const data = await fetchData("newsList");
+  return data.map((item: any) => ({
+    title: item.fields.title,
+    slug: item.fields.slug,
+    news: item.fields.news,
+  }));
 };

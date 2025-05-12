@@ -1,6 +1,6 @@
 import { getPageContent, extractImages } from "../services/helpers";
-import { Box, Typography, CardMedia } from "@mui/material";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { Box, Typography, CardMedia, Paper } from "@mui/material";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
 
@@ -13,8 +13,9 @@ const HomePage = async () => {
 
   const { description, heroImages } = pageData;
 
-  // Use extractImages to get the image URLs
   const imageUrls = extractImages(heroImages);
+
+  const plainDescription = documentToPlainTextString(description);
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -27,7 +28,27 @@ const HomePage = async () => {
           minHeight: "100vh",
           p: 3,
         }}>
-        {documentToReactComponents(description) as string}
+        <Paper
+          elevation={3}
+          sx={{
+            p: 3,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 3,
+            maxWidth: 800,
+            width: "100%",
+            marginTop: "5%",
+          }}>
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            align="center"
+            sx={{ maxWidth: 800 }}>
+            {plainDescription}
+          </Typography>
+        </Paper>
         {imageUrls.map((url, index) => (
           <CardMedia
             key={index}
@@ -37,10 +58,8 @@ const HomePage = async () => {
             sx={{
               width: "100%",
               height: "auto",
-              mb: 3,
               boxShadow: 3,
               borderRadius: 2,
-              animation: "zoomIn 2s",
             }}
           />
         ))}

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@contentful/rich-text-plain-text-renderer": "^17.0.0",
     "@contentful/rich-text-react-renderer": "^16.0.1",
     "@emotion/react": "^11.14.0",
     "@emotion/server": "^11.11.0",

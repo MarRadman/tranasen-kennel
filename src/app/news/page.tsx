@@ -1,20 +1,31 @@
-import { getPageContent } from "../services/helpers";
-import { Box, Typography, CardMedia } from "@mui/material";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { getAllNews } from "../services/helpers";
+import { Box, Typography, Paper, CardMedia } from "@mui/material";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
 
-const news = async () => {
-  const pageData = (await getPageContent("news")) as any;
+const NewsPage = async () => {
+  const newsLists = await getAllNews();
 
-  if (!pageData) {
-    return <Typography variant="h1">Contact Info content not found</Typography>;
+  // Flatten all news from newsLists and sort them by date (latest first)
+  const allNews = newsLists
+    .flatMap((list) => (Array.isArray(list.news) ? list.news : []))
+    .sort(
+      (a, b) =>
+        new Date(b.fields.date).getTime() - new Date(a.fields.date).getTime()
+    );
+
+  if (!allNews.length) {
+    return <Typography variant="h1">Inga nyheter hittades</Typography>;
   }
 
-  const { title, description, heroImage } = pageData;
-  const imageUrl = heroImage?.fields?.file?.url
-    ? `https:${heroImage.fields.file.url}`
-    : null;
+  const allNewsWithPlainText = allNews.map((newsItem) => ({
+    ...newsItem,
+    fields: {
+      ...newsItem.fields,
+      description: documentToPlainTextString(newsItem.fields.description),
+    },
+  }));
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -22,48 +33,59 @@ const news = async () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
           minHeight: "100vh",
           p: 3,
+          gap: 4,
         }}>
-        <Typography
-          variant="h2"
-          component="h2"
-          gutterBottom
-          sx={{
-            textAlign: "center",
-            mb: 3,
-            fontSize: { xs: "2rem", sm: "3rem", md: "4rem" },
-            animation: "fadeIn 2s",
-          }}>
-          {title}
-        </Typography>
-        {imageUrl && (
-          <CardMedia
-            component="img"
-            alt={heroImage.title}
-            image={imageUrl}
+        {allNews.map((newsItem: any, index: number) => (
+          <Paper
+            key={newsItem.sys?.id || index}
+            elevation={3}
             sx={{
-              width: { xs: "90%", sm: "80%", md: "70%", lg: "60%", xl: "50%" },
-              height: "auto",
+              p: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              maxWidth: 800,
+              width: "100%",
               mb: 3,
-              boxShadow: 3,
+              marginTop: "5%",
               borderRadius: 2,
-              animation: "zoomIn 2s",
-            }}
-          />
-        )}
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          align="center"
-          sx={{ maxWidth: 800, mb: 3 }}>
-          {documentToReactComponents(description)}
-        </Typography>
+            }}>
+            <Typography variant="h4" component="h2" gutterBottom>
+              {newsItem.fields.title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" gutterBottom>
+              {newsItem.fields.date}
+            </Typography>
+            {newsItem.fields.heroImage?.fields?.file?.url && (
+              <CardMedia
+                component="img"
+                alt={newsItem.fields.heroImage.fields.title}
+                image={`https:${newsItem.fields.heroImage.fields.file.url}`}
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                  mb: 2,
+                  borderRadius: 2,
+                  boxShadow: 2,
+                }}
+              />
+            )}
+            <Typography
+              variant="body1"
+              component="div"
+              color="textSecondary"
+              align="center"
+              sx={{ maxWidth: 800 }}>
+              {allNewsWithPlainText[index].fields.description}
+            </Typography>
+          </Paper>
+        ))}
       </Box>
     </Suspense>
   );
 };
 
-export default news;
+export default NewsPage;
