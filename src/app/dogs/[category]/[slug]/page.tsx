@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import LoadingData from "../../../components/getLoadingPage";
 import { Suspense } from "react";
 import Image from "next/image";
@@ -119,7 +119,7 @@ const DogDetails = async ({
           }}></Box>
         <Typography variant="h2">{dog.birthdate}</Typography>
         <Typography>
-          {documentToReactComponents(dog.description as any)}
+          {documentToPlainTextString(dog.description as any)}
         </Typography>
         {images.length > 0 ? (
           <Box
@@ -197,111 +197,22 @@ const DogDetails = async ({
       {dog.dogAncestorTree && dog.dogAncestorTree.length > 0 ? (
         <Box
           sx={{
-            padding: 4,
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
+            justifyContent: "center",
           }}>
           <Box
             sx={{
-              border: "2px solid #ccc",
-              borderRadius: "8px",
-              padding: 3,
-              marginBottom: 4,
-              backgroundColor: "#f9f9f9",
+              padding: 4,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignContent: "center",
             }}>
-            <Typography
-              variant="h2"
-              fontWeight="bold"
-              gutterBottom
+            <Box
               sx={{
                 display: "flex",
-                justifyContent: "center",
-              }}>
-              Stamtavla
-            </Typography>
-            {/* Fader och hans träd */}
-            <Box
-              sx={{
-                border: "2px solid #ccc",
-                borderRadius: "8px",
-                padding: 3,
-                marginBottom: 4,
-                backgroundColor: "#f9f9f2",
-              }}>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                gutterBottom
-                sx={{
-                  textAlign: "center",
-                }}>
-                Faderns träd
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: {
-                    xs: "column",
-                    md: "row",
-                  },
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 2,
-                  marginTop: 4,
-                  width: "100%",
-                }}>
-                {/* Fader */}
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    minWidth: 200,
-                    maxWidth: 300,
-                  }}>
-                  {renderRelation("Fader/Sire", dog.dogAncestorTree)}
-                </Box>
-
-                {/* Farföräldrar */}
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    minWidth: 200,
-                    maxWidth: 300,
-                  }}>
-                  {renderRelation("Farfar/Sire Grandsire", dog.dogAncestorTree)}
-                  {renderRelation("Farmor/Sire Granddam", dog.dogAncestorTree)}
-                </Box>
-
-                {/* Farfars föräldrar */}
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    minWidth: 200,
-                    maxWidth: 300,
-                  }}>
-                  {renderRelation(
-                    "Farfars far/Sire Grandsire Father",
-                    dog.dogAncestorTree
-                  )}
-                  {renderRelation(
-                    "Farfars mor/Sire Grandsire Mother",
-                    dog.dogAncestorTree
-                  )}
-                  {/* Farmors föräldrar */}
-                  {renderRelation(
-                    "Farmors far/Sire Granddam Father",
-                    dog.dogAncestorTree
-                  )}
-                  {renderRelation(
-                    "Farmors mor/Sire Granddam Mother",
-                    dog.dogAncestorTree
-                  )}
-                </Box>
-              </Box>
-            </Box>
-
-            {/* Moder och hennes träd */}
-            <Box
-              sx={{
+                flexDirection: "column",
                 border: "2px solid #ccc",
                 borderRadius: "8px",
                 padding: 3,
@@ -309,72 +220,181 @@ const DogDetails = async ({
                 backgroundColor: "#f9f9f9",
               }}>
               <Typography
-                variant="h4"
+                variant="h2"
                 fontWeight="bold"
                 gutterBottom
                 sx={{
-                  textAlign: "center",
+                  display: "flex",
+                  justifyContent: "center",
                 }}>
-                Moderns träd
+                Stamtavla
               </Typography>
+              {/* Fader och hans träd */}
               <Box
                 sx={{
-                  display: "flex",
-                  flexDirection: {
-                    xs: "column",
-                    md: "row",
-                  },
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 2,
-                  marginTop: 4,
-                  width: "100%",
+                  border: "2px solid #ccc",
+                  borderRadius: "8px",
+                  padding: 3,
+                  marginBottom: 4,
+                  backgroundColor: "#f9f9f2",
                 }}>
-                {/* Moder */}
-                <Box
+                <Typography
+                  variant="h3"
+                  fontWeight="bold"
+                  gutterBottom
                   sx={{
                     textAlign: "center",
-                    minWidth: 200,
-                    maxWidth: 300,
                   }}>
-                  {renderRelation("Moder/Dam", dog.dogAncestorTree)}
-                </Box>
+                  Faderns träd
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: {
+                      xs: "column",
+                      md: "row",
+                    },
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 2,
+                    marginTop: 4,
+                    width: "100%",
+                  }}>
+                  {/* Fader */}
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      minWidth: 200,
+                      maxWidth: 300,
+                    }}>
+                    {renderRelation("Fader/Sire", dog.dogAncestorTree)}
+                  </Box>
 
-                {/* Morföräldrar */}
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    minWidth: 200,
-                    maxWidth: 300,
-                  }}>
-                  {renderRelation("Morfar/Dam Grandsire", dog.dogAncestorTree)}
-                  {renderRelation("Mormor/Dam Granddam", dog.dogAncestorTree)}
-                </Box>
+                  {/* Farföräldrar */}
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      minWidth: 200,
+                      maxWidth: 300,
+                    }}>
+                    {renderRelation(
+                      "Farfar/Sire Grandsire",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Farmor/Sire Granddam",
+                      dog.dogAncestorTree
+                    )}
+                  </Box>
 
-                {/* Morfars föräldrar */}
-                <Box
+                  {/* Farfars föräldrar */}
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      minWidth: 200,
+                      maxWidth: 300,
+                    }}>
+                    {renderRelation(
+                      "Farfars far/Sire Grandsire Father",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Farfars mor/Sire Grandsire Mother",
+                      dog.dogAncestorTree
+                    )}
+                    {/* Farmors föräldrar */}
+                    {renderRelation(
+                      "Farmors far/Sire Granddam Father",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Farmors mor/Sire Granddam Mother",
+                      dog.dogAncestorTree
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+
+              {/* Moder och hennes träd */}
+              <Box
+                sx={{
+                  border: "2px solid #ccc",
+                  borderRadius: "8px",
+                  padding: 3,
+                  marginBottom: 4,
+                  backgroundColor: "#f9f9f9",
+                }}>
+                <Typography
+                  variant="h4"
+                  fontWeight="bold"
+                  gutterBottom
                   sx={{
                     textAlign: "center",
-                    minWidth: 200,
-                    maxWidth: 300,
                   }}>
-                  {renderRelation(
-                    "Morfars far/Dam Grandsire Father",
-                    dog.dogAncestorTree
-                  )}
-                  {renderRelation(
-                    "Morfars mor/Dam Grandsire Mother",
-                    dog.dogAncestorTree
-                  )}
-                  {/* Mormors föräldrar */}
-                  {renderRelation(
-                    "Mormors far/Dam Granddam Father",
-                    dog.dogAncestorTree
-                  )}
-                  {renderRelation(
-                    "Mormors mor/Dam Granddam Mother",
-                    dog.dogAncestorTree
-                  )}
+                  Moderns träd
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: {
+                      xs: "column",
+                      md: "row",
+                    },
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 2,
+                    marginTop: 4,
+                    width: "100%",
+                  }}>
+                  {/* Moder */}
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      minWidth: 200,
+                      maxWidth: 300,
+                    }}>
+                    {renderRelation("Moder/Dam", dog.dogAncestorTree)}
+                  </Box>
+
+                  {/* Morföräldrar */}
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      minWidth: 200,
+                      maxWidth: 300,
+                    }}>
+                    {renderRelation(
+                      "Morfar/Dam Grandsire",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation("Mormor/Dam Granddam", dog.dogAncestorTree)}
+                  </Box>
+
+                  {/* Morfars föräldrar */}
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      minWidth: 200,
+                      maxWidth: 300,
+                    }}>
+                    {renderRelation(
+                      "Morfars far/Dam Grandsire Father",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Morfars mor/Dam Grandsire Mother",
+                      dog.dogAncestorTree
+                    )}
+                    {/* Mormors föräldrar */}
+                    {renderRelation(
+                      "Mormors far/Dam Granddam Father",
+                      dog.dogAncestorTree
+                    )}
+                    {renderRelation(
+                      "Mormors mor/Dam Granddam Mother",
+                      dog.dogAncestorTree
+                    )}
+                  </Box>
                 </Box>
               </Box>
             </Box>

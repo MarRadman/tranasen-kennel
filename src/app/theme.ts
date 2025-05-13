@@ -149,14 +149,6 @@ const theme = createTheme({
           borderRadius: "10px",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
         },
-        ".center-content": {
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100vh",
-          width: "100%",
-        },
         ".footer": {
           marginTop: "auto",
         },

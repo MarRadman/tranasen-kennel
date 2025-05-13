@@ -29,8 +29,6 @@ const DogsCategories = async ({ params }: { params: { category: string } }) => {
 
   const dogCategories = await getDogsInCategory(category);
 
-  console.log("Dog categories data:", dogCategories);
-
   return (
     <Suspense fallback={<LoadingData />}>
       <Box
