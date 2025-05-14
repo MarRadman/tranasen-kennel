@@ -1,6 +1,6 @@
 import { getPageContent } from "./services/helpers";
 import { Box, Typography, CardMedia } from "@mui/material";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import LoadingData from "./components/getLoadingPage";
 import { Suspense } from "react";
 import Link from "next/link";
@@ -20,6 +20,8 @@ const FrontPage = async () => {
   const imageUrlImage = heroImage?.fields?.file?.url
     ? `https:${heroImage.fields.file.url}`
     : (null as any);
+
+  const plainDescription = documentToPlainTextString(description);
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -49,7 +51,7 @@ const FrontPage = async () => {
           color="textSecondary"
           align="center"
           sx={{ maxWidth: 800, mb: 3 }}>
-          {documentToReactComponents(description) as any}
+          {plainDescription as any}
         </Typography>
       </Box>
     </Suspense>
