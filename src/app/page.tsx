@@ -20,6 +20,7 @@ interface PageData {
     fields?: HeroImageFields;
     title?: string;
   };
+  date: string;
 }
 
 const FrontPage = async () => {
@@ -30,7 +31,7 @@ const FrontPage = async () => {
     return <Typography variant="h1">Homepage content not found</Typography>;
   }
 
-  const { description, image } = pageData;
+  const { description, image, date } = pageData;
   const imageUrl = Array.isArray(image) ? image[0] : image;
 
   const imageUrlImage: string | undefined = image?.fields?.file?.url
@@ -73,6 +74,13 @@ const FrontPage = async () => {
           align="center"
           sx={{ maxWidth: 800, mb: 3 }}>
           {plainDescription}
+        </Typography>
+        <Typography
+          variant="body1"
+          color="textSecondary"
+          align="center"
+          sx={{ maxWidth: 800, mb: 3 }}>
+          Uppdaterad: {date}
         </Typography>
       </Box>
     </Suspense>
