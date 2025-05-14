@@ -20,7 +20,11 @@ const checkDogCategory = (category: string) => {
   }
 };
 
-const DogsCategories = async ({ params }: { params: { category: string } }) => {
+const DogsCategories = async ({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}) => {
   const { category } = await params;
 
   if (!category) {
