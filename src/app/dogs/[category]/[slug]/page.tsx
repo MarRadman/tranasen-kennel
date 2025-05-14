@@ -78,7 +78,7 @@ const renderRelation = (
 const DogDetails = async ({
   params,
 }: {
-  params: { category: string; slug: string };
+  params: Promise<{ category: string; slug: string }>;
 }) => {
   const { slug } = await params;
 
