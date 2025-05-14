@@ -1,13 +1,9 @@
-import { getPageContent } from "../services/helpers";
+import { getPageContent, extractImages } from "../services/helpers";
 import { Box, Typography, CardMedia } from "@mui/material";
-import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
-import type { Document } from "@contentful/rich-text-types";
-
 interface GalleryPageData {
   title: string;
-  description: string | Document;
   images?: {
     fields?: {
       file?: {
@@ -25,10 +21,9 @@ const Gallery = async () => {
     return <Typography variant="h1">Gallery content not found</Typography>;
   }
 
-  const { title, description, images } = pageData;
-  const imageUrl = images?.fields?.file?.url
-    ? `https:${images.fields.file.url}`
-    : null;
+  const { title, images } = pageData;
+
+  const getImages = extractImages(images);
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -36,7 +31,7 @@ const Gallery = async () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           alignItems: "center",
           minHeight: "100vh",
           p: 3,
@@ -47,38 +42,74 @@ const Gallery = async () => {
           gutterBottom
           sx={{
             textAlign: "center",
-            mb: 3,
-            fontSize: { xs: "2rem", sm: "3rem", md: "4rem" },
-            animation: "fadeIn 2s",
+            marginTop: "20px",
           }}>
           {title}
         </Typography>
-        {imageUrl && (
-          <CardMedia
-            component="img"
-            alt={images?.fields?.title || title}
-            image={imageUrl}
+        <Box
+          sx={{
+            border: "2px solid #ccc",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f2",
+            width: "100%",
+            padding: 4,
+          }}>
+          <Box
             sx={{
-              width: { xs: "90%", sm: "80%", md: "70%", lg: "60%", xl: "50%" },
-              height: "auto",
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr", // 1 per row on mobile
+                sm: "1fr 1fr", // 2 per row on small screens
+                md: "1fr 1fr 1fr", // 3 per row on medium screens
+                lg: "1fr 1fr 1fr 1fr", // 4 per row on large screens
+                xl: "1fr 1fr 1fr 1fr 1fr", // 5 per row on extra large screens
+              },
+              gap: 3,
+              width: "100%",
+              justifyItems: "center",
               mb: 3,
-              boxShadow: 3,
-              borderRadius: 2,
-              animation: "zoomIn 2s",
-            }}
-          />
-        )}
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          align="center"
-          sx={{ maxWidth: 800, mb: 3 }}>
-          {description
-            ? typeof description === "object"
-              ? documentToPlainTextString(description as Document)
-              : description
-            : ""}
-        </Typography>
+            }}>
+            {getImages && Array.isArray(getImages) && getImages.length > 0 ? (
+              getImages.map((imgUrl, idx) => (
+                <Box key={imgUrl || idx} sx={{ width: "100%" }}>
+                  <CardMedia
+                    component="img"
+                    alt={images?.fields?.title || title}
+                    image={imgUrl}
+                    sx={{
+                      width: "100%",
+                      maxWidth: { xs: 300, sm: 400, md: 500 },
+                      maxHeight: 350,
+                      height: "auto",
+                      boxShadow: 3,
+                      borderRadius: 2,
+                      objectFit: "cover",
+                      margin: "0 auto",
+                    }}
+                  />
+                </Box>
+              ))
+            ) : getImages ? (
+              <Box sx={{ width: "100%" }}>
+                <CardMedia
+                  component="img"
+                  alt={images?.fields?.title || title}
+                  image={typeof getImages === "string" ? getImages : ""}
+                  sx={{
+                    width: "100%",
+                    maxWidth: { xs: 300, sm: 400, md: 500 },
+                    maxHeight: 350,
+                    height: "auto",
+                    boxShadow: 3,
+                    borderRadius: 2,
+                    objectFit: "cover",
+                    margin: "0 auto",
+                  }}
+                />
+              </Box>
+            ) : null}
+          </Box>
+        </Box>
       </Box>
     </Suspense>
   );

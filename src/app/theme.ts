@@ -20,7 +20,7 @@ const theme = createTheme({
   typography: {
     fontFamily: "Montserrat, Arial, sans-serif",
     h1: {
-      fontSize: "2.5rem",
+      fontSize: "2rem",
       fontWeight: "bold",
       color: "#8B5E3C",
       [`@media (min-width:600px)`]: {
