@@ -4,6 +4,7 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 import LoadingData from "./components/getLoadingPage";
 import { Suspense } from "react";
 import Link from "next/link";
+import { Document } from "@contentful/rich-text-types";
 // import { getVisitorCounter } from "@app/services/getVisitorCounter";
 
 interface HeroImageFields {
@@ -15,7 +16,7 @@ interface HeroImageFields {
 
 interface PageData {
   description: string;
-  heroImage: {
+  image: {
     fields?: HeroImageFields;
     title?: string;
   };
@@ -29,14 +30,19 @@ const FrontPage = async () => {
     return <Typography variant="h1">Homepage content not found</Typography>;
   }
 
-  const { description, heroImage } = pageData;
-  const imageUrl = Array.isArray(heroImage) ? heroImage[0] : heroImage;
+  const { description, image } = pageData;
+  const imageUrl = Array.isArray(image) ? image[0] : image;
 
-  const imageUrlImage: string | null = heroImage?.fields?.file?.url
-    ? `https:${heroImage.fields.file.url}`
-    : null;
+  const imageUrlImage: string | undefined = image?.fields?.file?.url
+    ? `https:${image.fields.file.url}`
+    : undefined;
 
-  const plainDescription = documentToPlainTextString(description);
+  let plainDescription: string = "";
+  if (description && typeof description === "object") {
+    plainDescription = documentToPlainTextString(description as Document);
+  } else if (typeof description === "string") {
+    plainDescription = description;
+  }
 
   return (
     <Suspense fallback={<LoadingData />}>

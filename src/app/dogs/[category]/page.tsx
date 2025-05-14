@@ -73,8 +73,8 @@ const DogsCategories = async ({
                 <Image
                   src={dog.images[0]}
                   alt={dog.name}
-                  width={100}
-                  height={100}
+                  width={300}
+                  height={300}
                   style={{
                     objectFit: "cover",
                     borderRadius: "8px",

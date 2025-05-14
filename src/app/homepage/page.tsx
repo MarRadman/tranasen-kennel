@@ -15,9 +15,9 @@ const HomePage = async () => {
     return <Typography variant="h1">Homepage content not found</Typography>;
   }
 
-  const { description, heroImages } = pageData;
+  const { description, images } = pageData;
 
-  const imageUrls = extractImages(heroImages);
+  const imageUrls = extractImages(images);
 
   return (
     <Suspense fallback={<LoadingData />}>

@@ -1,9 +1,10 @@
 import { getAllNews } from "../services/helpers";
-import { Box, Typography, Paper, CardMedia } from "@mui/material";
+import { Box, Typography, Paper } from "@mui/material";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
 import { NewsItem } from "@app/types";
+import { Document } from "@contentful/rich-text-types";
 
 const NewsPage = async () => {
   const newsLists = await getAllNews();
@@ -24,7 +25,11 @@ const NewsPage = async () => {
     ...newsItem,
     fields: {
       ...newsItem.fields,
-      description: documentToPlainTextString(newsItem.fields.description),
+      description:
+        newsItem.fields.description &&
+        typeof newsItem.fields.description === "object"
+          ? documentToPlainTextString(newsItem.fields.description as Document)
+          : newsItem.fields.description || "",
     },
   }));
 
@@ -60,20 +65,6 @@ const NewsPage = async () => {
             <Typography variant="body2" color="textSecondary" gutterBottom>
               {newsItem.fields.date}
             </Typography>
-            {newsItem.fields.heroImage?.fields?.file?.url && (
-              <CardMedia
-                component="img"
-                alt={newsItem.fields.heroImage.fields.title}
-                image={`https:${newsItem.fields.heroImage.fields.file.url}`}
-                sx={{
-                  width: "100%",
-                  height: "auto",
-                  mb: 2,
-                  borderRadius: 2,
-                  boxShadow: 2,
-                }}
-              />
-            )}
             <Typography
               variant="body1"
               component="div"
