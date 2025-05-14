@@ -4,6 +4,7 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
 import { HomePageData } from "@app/types";
+import type { Document } from "@contentful/rich-text-types";
 
 const HomePage = async () => {
   const pageData = await getPageContent<
@@ -17,8 +18,6 @@ const HomePage = async () => {
   const { description, heroImages } = pageData;
 
   const imageUrls = extractImages(heroImages);
-
-  const plainDescription = documentToPlainTextString(description);
 
   return (
     <Suspense fallback={<LoadingData />}>
@@ -49,7 +48,11 @@ const HomePage = async () => {
             color="textSecondary"
             align="center"
             sx={{ maxWidth: 800 }}>
-            {plainDescription}
+            {description
+              ? typeof description === "object"
+                ? documentToPlainTextString(description as Document)
+                : description
+              : ""}
           </Typography>
         </Paper>
         {imageUrls.map((url, index) => (
