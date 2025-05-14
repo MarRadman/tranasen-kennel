@@ -1,3 +1,5 @@
+import type { Document } from "@contentful/rich-text-types";
+
 export interface HomePageData {
   description: string;
   heroImages: unknown;
@@ -49,11 +51,7 @@ export interface Dog {
   name?: string;
   slug?: string;
   images?: DogImage[];
-  description?: {
-    data: unknown;
-    content: string[];
-    nodeType: string;
-  };
+  description?: string | Document;
   category?: string;
   birthdate?: string;
   dogColor?: string;

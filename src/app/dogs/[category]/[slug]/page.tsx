@@ -5,6 +5,8 @@ import { Suspense } from "react";
 import Image from "next/image";
 import { extractImages, getDogBySlug } from "@/app/services/helpers";
 import { Dog } from "@app/types";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
+import { Document } from "@contentful/rich-text-types";
 
 const renderRelation = (
   relationType: string,
@@ -119,8 +121,10 @@ const DogDetails = async ({
           }}></Box>
         <Typography variant="h2">{dog.birthdate}</Typography>
         <Typography>
-          {dog.description && "description" in dog.description
-            ? (dog.description as unknown)
+          {dog.description
+            ? typeof dog.description === "object"
+              ? documentToPlainTextString(dog.description as Document)
+              : dog.description
             : ""}
         </Typography>
         {images.length > 0 ? (
