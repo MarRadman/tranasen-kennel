@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
+import { Document } from "@contentful/rich-text-types";
 import LoadingData from "../../../components/getLoadingPage";
 import { Suspense } from "react";
 import Image from "next/image";
@@ -119,8 +120,8 @@ const DogDetails = async ({
           }}></Box>
         <Typography variant="h2">{dog.birthdate}</Typography>
         <Typography>
-          {dog.description
-            ? (documentToPlainTextString(dog.description) as string)
+          {dog.description && "content" in dog.description
+            ? documentToPlainTextString(dog.description as Document)
             : ""}
         </Typography>
         {images.length > 0 ? (
