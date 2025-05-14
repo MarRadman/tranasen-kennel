@@ -4,16 +4,29 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
 
+interface GalleryPageData {
+  title: string;
+  description: string;
+  images?: {
+    fields?: {
+      file?: {
+        url?: string;
+      };
+      title?: string;
+    };
+  };
+}
+
 const Gallery = async () => {
-  const pageData = (await getPageContent("gallery")) as any;
+  const pageData = (await getPageContent("gallery")) as GalleryPageData;
 
   if (!pageData) {
     return <Typography variant="h1">Gallery content not found</Typography>;
   }
 
-  const { title, content, heroImage } = pageData;
-  const imageUrl = heroImage?.fields?.file?.url
-    ? `https:${heroImage.fields.file.url}`
+  const { title, content, images } = pageData;
+  const imageUrl = images?.fields?.file?.url
+    ? `https:${images.fields.file.url}`
     : null;
 
   return (

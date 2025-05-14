@@ -118,9 +118,7 @@ const DogDetails = async ({
             margin: "16px auto",
           }}></Box>
         <Typography variant="h2">{dog.birthdate}</Typography>
-        <Typography>
-          {documentToPlainTextString(dog.description as any)}
-        </Typography>
+        <Typography>{documentToPlainTextString(dog.description)}</Typography>
         {images.length > 0 ? (
           <Box
             sx={{

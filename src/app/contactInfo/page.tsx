@@ -1,8 +1,15 @@
 import { Box, Typography, Avatar, Link, Paper } from "@mui/material";
 import { getPageContent, extractImages } from "@app/services/helpers";
 
+interface ContactPageData {
+  image: string;
+  address: string;
+  email: string;
+  phone: string;
+}
+
 const Contact = async () => {
-  const pageData = (await getPageContent("contactInfo")) as any;
+  const pageData = (await getPageContent("contactInfo")) as ContactPageData;
 
   if (!pageData) {
     return <Typography variant="h1">Contact content not found</Typography>;

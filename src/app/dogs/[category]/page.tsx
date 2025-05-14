@@ -5,7 +5,7 @@ import { getDogsInCategory } from "@/app/services/helpers";
 import Link from "next/link";
 import Image from "next/image";
 
-const checkDogCategory = (category: any) => {
+const checkDogCategory = (category: string) => {
   switch (category) {
     case "tik":
       return `Tikar`;

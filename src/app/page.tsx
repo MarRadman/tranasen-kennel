@@ -6,8 +6,23 @@ import { Suspense } from "react";
 import Link from "next/link";
 // import { getVisitorCounter } from "@app/services/getVisitorCounter";
 
+interface HeroImageFields {
+  file?: {
+    url?: string;
+  };
+  title?: string;
+}
+
+interface PageData {
+  description: string;
+  heroImage: {
+    fields?: HeroImageFields;
+    title?: string;
+  };
+}
+
 const FrontPage = async () => {
-  const pageData = (await getPageContent("frontpage")) as any;
+  const pageData = (await getPageContent("frontpage")) as PageData | null;
   // const visitorCounter = (await getVisitorCounter()) as number;
 
   if (!pageData) {
@@ -17,9 +32,9 @@ const FrontPage = async () => {
   const { description, heroImage } = pageData;
   const imageUrl = Array.isArray(heroImage) ? heroImage[0] : heroImage;
 
-  const imageUrlImage = heroImage?.fields?.file?.url
+  const imageUrlImage: string | null = heroImage?.fields?.file?.url
     ? `https:${heroImage.fields.file.url}`
-    : (null as any);
+    : null;
 
   const plainDescription = documentToPlainTextString(description);
 
@@ -51,7 +66,7 @@ const FrontPage = async () => {
           color="textSecondary"
           align="center"
           sx={{ maxWidth: 800, mb: 3 }}>
-          {plainDescription as any}
+          {plainDescription}
         </Typography>
       </Box>
     </Suspense>

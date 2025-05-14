@@ -3,6 +3,7 @@ import { Box, Typography, Paper, CardMedia } from "@mui/material";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
+import { NewsItem } from "@app/types";
 
 const NewsPage = async () => {
   const newsLists = await getAllNews();
@@ -38,7 +39,7 @@ const NewsPage = async () => {
           p: 3,
           gap: 4,
         }}>
-        {allNews.map((newsItem: any, index: number) => (
+        {allNews.map((newsItem: NewsItem, index: number) => (
           <Paper
             key={newsItem.sys?.id || index}
             elevation={3}

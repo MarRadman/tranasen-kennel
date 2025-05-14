@@ -6,12 +6,18 @@ const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || "",
 });
 
+interface FetchQuery {
+  content_type: string;
+  include: number;
+  [key: string]: string | number | undefined;
+}
+
 export const fetchData = async (
   contentType: string,
   slug?: string,
   category?: string
 ) => {
-  const query: any = { content_type: contentType, include: 2 };
+  const query: FetchQuery = { content_type: contentType, include: 2 };
   if (slug) query["fields.slug"] = slug;
   if (category) query["fields.category.sys.id"] = category;
 

@@ -3,9 +3,12 @@ import { Box, Typography, CardMedia, Paper } from "@mui/material";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
+import { HomePageData } from "@app/types";
 
 const HomePage = async () => {
-  const pageData = (await getPageContent("homepage")) as any;
+  const pageData = await getPageContent<
+    HomePageData & { description: string; heroImages: unknown }
+  >("homepage");
 
   if (!pageData) {
     return <Typography variant="h1">Homepage content not found</Typography>;
