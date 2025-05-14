@@ -6,9 +6,9 @@ export const getDogCategories = async (): Promise<
   { title: string; slug: string }[]
 > => {
   const data = await fetchData("dogCategory");
-  return data.map((item: ContentfulEntry<{ title: string; slug: string }>) => ({
-    title: item.fields.title,
-    slug: item.fields.slug,
+  return data.map((item: { fields?: { title?: string; slug?: string } }) => ({
+    title: item.fields?.title ?? "",
+    slug: item.fields?.slug ?? "",
   }));
 };
 
