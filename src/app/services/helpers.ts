@@ -65,7 +65,7 @@ export const getPageContent = async <T>(
 ): Promise<T | null> => {
   try {
     const data = await fetchData(contentType, slug, category);
-    return data[0]?.fields ?? null;
+    return (data[0]?.fields as T) ?? null;
   } catch (error) {
     console.error("Error fetching page content:", error);
     return null;
@@ -75,9 +75,13 @@ export const getPageContent = async <T>(
 // Fetch all news
 export const getAllNews = async (): Promise<NewsList[]> => {
   const data = await fetchData("newsList");
-  return data.map((item: ContentfulEntry<NewsList>) => ({
-    title: item.fields.title,
-    slug: item.fields.slug,
-    news: item.fields.news,
-  }));
+  return data.map(
+    (item: {
+      fields?: { title?: string; slug?: string; news?: NewsList["news"] };
+    }) => ({
+      title: item.fields?.title ?? "",
+      slug: item.fields?.slug ?? "",
+      news: item.fields?.news ?? [],
+    })
+  );
 };
