@@ -1,3 +1,4 @@
+//eslint no-use-before-define: 0
 import { Box, Typography } from "@mui/material";
 import LoadingData from "../../../components/getLoadingPage";
 import { Suspense } from "react";
@@ -119,7 +120,7 @@ const DogDetails = async ({
         <Typography variant="h2">{dog.birthdate}</Typography>
         <Typography>
           {dog.description && "description" in dog.description
-            ? (dog.description as string)
+            ? (dog.description as unknown)
             : ""}
         </Typography>
         {images.length > 0 ? (
