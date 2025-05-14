@@ -2,7 +2,7 @@ import type { Document } from "@contentful/rich-text-types";
 
 export interface HomePageData {
   description: string;
-  heroImages: unknown;
+  images: string[];
 }
 
 export interface ContactPageData {
