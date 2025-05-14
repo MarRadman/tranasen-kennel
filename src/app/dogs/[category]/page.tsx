@@ -69,9 +69,9 @@ const DogsCategories = async ({
                 alignItems: "center",
                 textAlign: "center",
               }}>
-              {dog.image && (
+              {dog.images && dog.images.length > 0 && (
                 <Image
-                  src={dog.image}
+                  src={dog.images[0]}
                   alt={dog.name}
                   width={100}
                   height={100}
