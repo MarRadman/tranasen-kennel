@@ -120,8 +120,8 @@ const DogDetails = async ({
           }}></Box>
         <Typography variant="h2">{dog.birthdate}</Typography>
         <Typography>
-          {dog.description && "content" in dog.description
-            ? documentToPlainTextString(dog.description as Document)
+          {dog.description && "description" in dog.description
+            ? (dog.description as string)
             : ""}
         </Typography>
         {images.length > 0 ? (
