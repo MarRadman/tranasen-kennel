@@ -1,12 +1,13 @@
 import { getPageContent } from "../services/helpers";
 import { Box, Typography, CardMedia } from "@mui/material";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import LoadingData from "../components/getLoadingPage";
 import { Suspense } from "react";
+import type { Document } from "@contentful/rich-text-types";
 
 interface GalleryPageData {
   title: string;
-  description: string;
+  description: string | Document;
   images?: {
     fields?: {
       file?: {
@@ -24,7 +25,7 @@ const Gallery = async () => {
     return <Typography variant="h1">Gallery content not found</Typography>;
   }
 
-  const { title, content, images } = pageData;
+  const { title, description, images } = pageData;
   const imageUrl = images?.fields?.file?.url
     ? `https:${images.fields.file.url}`
     : null;
@@ -55,7 +56,7 @@ const Gallery = async () => {
         {imageUrl && (
           <CardMedia
             component="img"
-            alt={heroImage.title}
+            alt={images?.fields?.title || title}
             image={imageUrl}
             sx={{
               width: { xs: "90%", sm: "80%", md: "70%", lg: "60%", xl: "50%" },
@@ -72,7 +73,11 @@ const Gallery = async () => {
           color="textSecondary"
           align="center"
           sx={{ maxWidth: 800, mb: 3 }}>
-          {documentToReactComponents(content)}
+          {description
+            ? typeof description === "object"
+              ? documentToPlainTextString(description as Document)
+              : description
+            : ""}
         </Typography>
       </Box>
     </Suspense>
