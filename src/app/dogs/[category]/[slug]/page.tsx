@@ -1,6 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
-import { Document } from "@contentful/rich-text-types";
 import LoadingData from "../../../components/getLoadingPage";
 import { Suspense } from "react";
 import Image from "next/image";
