@@ -1,22 +1,10 @@
-"use client";
-
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
-import getNavMenuItems from "./components/getNavmenu";
+// import { useEffect, useState } from "react";
+// import getNavMenuItems from "./components/getNavmenu";
 import Link from "next/link";
 
-const Footer = () => {
-  const [footerTitle, setFooterTitle] = useState<string>("");
-
-  useEffect(() => {
-    const fetchMenuItems = async () => {
-      const { title } = await getNavMenuItems();
-      setFooterTitle(title);
-    };
-    fetchMenuItems();
-  }, []);
-
+const Footer = async ({ footerTitle }: { footerTitle: string }) => {
   return (
     <Box component="footer" className="footer">
       <Typography

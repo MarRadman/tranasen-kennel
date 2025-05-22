@@ -1,7 +1,7 @@
-import ThemeRegistry from "./components/themeRegistry";
 import Header from "./header";
 import Footer from "./footer";
 import getNavMenuItems from "./components/getNavmenu";
+import ThemeRegistry from "./components/themeRegistry";
 
 export default async function RootLayout({
   children,
@@ -25,7 +25,7 @@ export default async function RootLayout({
         <ThemeRegistry>
           <Header navTitle={title} menuItems={items} />
           {children}
-          <Footer />
+          <Footer footerTitle={title} />
         </ThemeRegistry>
       </body>
     </html>
