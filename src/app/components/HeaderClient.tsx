@@ -9,7 +9,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
-import { useTheme } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { useState } from "react";
 
@@ -23,7 +22,6 @@ export default function HeaderClient({
   menuItems,
 }: HeaderClientProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const theme = useTheme();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -39,7 +37,6 @@ export default function HeaderClient({
         position="fixed"
         sx={{
           background: "linear-gradient(to right, #ece9e6, #ffffff)",
-          zIndex: theme.zIndex.appBar,
         }}>
         <Toolbar>
           <Typography
@@ -47,7 +44,6 @@ export default function HeaderClient({
             component="h1"
             sx={{
               flexGrow: 1,
-              color: theme.palette.secondary.main,
               padding: "0.5rem 1rem",
               textAlign: "center",
             }}>

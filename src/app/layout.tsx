@@ -1,7 +1,5 @@
-import Header from "./header";
-import Footer from "./footer";
 import getNavMenuItems from "./components/getNavmenu";
-import ThemeRegistry from "./components/themeRegistry";
+import ClientRoot from "./components/ClientRoot";
 
 export default async function RootLayout({
   children,
@@ -21,11 +19,9 @@ export default async function RootLayout({
         <title>Tranåsens Hundkennel</title>
       </head>
       <body>
-        <ThemeRegistry>
-          <Header navTitle={title} menuItems={items} />
+        <ClientRoot navTitle={title} menuItems={items} footerTitle={title}>
           {children}
-          <Footer footerTitle={title} />
-        </ThemeRegistry>
+        </ClientRoot>
       </body>
     </html>
   );
