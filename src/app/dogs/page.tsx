@@ -1,6 +1,4 @@
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
-import LoadingData from "../components/getLoadingPage";
-import { Suspense } from "react";
 import { getDogCategories } from "../services/helpers";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,50 +11,48 @@ const AllDogCategories = async () => {
   }
 
   return (
-    <Suspense fallback={<LoadingData />}>
-      <Box
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        p: 3,
+      }}>
+      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
+        Alla Hundkategorier
+      </Typography>
+      <Image
+        src="/homePageImages/firstHomePageImage.svg"
+        alt="Description of the image"
+        width={300}
+        height={200}
+      />
+      <List
         sx={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+          },
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh",
-          p: 3,
+          width: "100%",
         }}>
-        <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
-          Alla Hundkategorier
-        </Typography>
-        <Image
-          src="/homePageImages/firstHomePageImage.svg"
-          alt="Description of the image"
-          width={300}
-          height={200}
-        />
-        <List
-          sx={{
-            display: "flex",
-            flexDirection: {
-              xs: "column",
-              sm: "row",
-            },
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-          }}>
-          {categories.map((dog) => (
-            <ListItem
-              key={dog.slug}
-              component={Link}
-              href={`/dogs/${dog.slug}`}
-              sx={{
-                width: "auto",
-              }}>
-              <ListItemText primary={dog.title} />
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-    </Suspense>
+        {categories.map((dog) => (
+          <ListItem
+            key={dog.slug}
+            component={Link}
+            href={`/dogs/${dog.slug}`}
+            sx={{
+              width: "auto",
+            }}>
+            <ListItemText primary={dog.title} />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
   );
 };
 

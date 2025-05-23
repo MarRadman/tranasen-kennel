@@ -1,8 +1,6 @@
 import { getAllNews } from "../services/helpers";
 import { Box, Typography, Paper } from "@mui/material";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
-import LoadingData from "../components/getLoadingPage";
-import { Suspense } from "react";
 import { NewsItem } from "@app/types";
 import { Document } from "@contentful/rich-text-types";
 
@@ -34,49 +32,47 @@ const NewsPage = async () => {
   }));
 
   return (
-    <Suspense fallback={<LoadingData />}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          minHeight: "100vh",
-          p: 3,
-          gap: 4,
-        }}>
-        {allNews.map((newsItem: NewsItem, index: number) => (
-          <Paper
-            key={newsItem.sys?.id || index}
-            elevation={3}
-            sx={{
-              p: 3,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              maxWidth: 800,
-              width: "100%",
-              mb: 3,
-              marginTop: "5%",
-              borderRadius: 2,
-            }}>
-            <Typography variant="h4" component="h2" gutterBottom>
-              {newsItem.fields.title}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" gutterBottom>
-              {newsItem.fields.date}
-            </Typography>
-            <Typography
-              variant="body1"
-              component="div"
-              color="textSecondary"
-              align="center"
-              sx={{ maxWidth: 800 }}>
-              {allNewsWithPlainText[index].fields.description}
-            </Typography>
-          </Paper>
-        ))}
-      </Box>
-    </Suspense>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        minHeight: "100vh",
+        p: 3,
+        gap: 4,
+      }}>
+      {allNews.map((newsItem: NewsItem, index: number) => (
+        <Paper
+          key={newsItem.sys?.id || index}
+          elevation={3}
+          sx={{
+            p: 3,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            maxWidth: 800,
+            width: "100%",
+            mb: 3,
+            marginTop: "5%",
+            borderRadius: 2,
+          }}>
+          <Typography variant="h4" component="h2" gutterBottom>
+            {newsItem.fields.title}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" gutterBottom>
+            {newsItem.fields.date}
+          </Typography>
+          <Typography
+            variant="body1"
+            component="div"
+            color="textSecondary"
+            align="center"
+            sx={{ maxWidth: 800 }}>
+            {allNewsWithPlainText[index].fields.description}
+          </Typography>
+        </Paper>
+      ))}
+    </Box>
   );
 };
 

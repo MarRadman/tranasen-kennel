@@ -1,8 +1,6 @@
 import { getPageContent } from "./services/helpers";
 import { Box, Typography, CardMedia } from "@mui/material";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
-import LoadingData from "./components/getLoadingPage";
-import { Suspense } from "react";
 import Link from "next/link";
 import { Document } from "@contentful/rich-text-types";
 // import { getVisitorCounter } from "@app/services/getVisitorCounter";
@@ -46,44 +44,42 @@ const FrontPage = async () => {
   }
 
   return (
-    <Suspense fallback={<LoadingData />}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-          p: 3,
-        }}>
-        <Link href="/homepage">
-          <CardMedia
-            component="img"
-            alt={imageUrl.title}
-            image={imageUrlImage}
-            sx={{
-              mb: 3,
-              boxShadow: 3,
-              borderRadius: 2,
-            }}
-          />
-        </Link>
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          align="center"
-          sx={{ maxWidth: 800, mb: 3 }}>
-          {plainDescription}
-        </Typography>
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          align="center"
-          sx={{ maxWidth: 800, mb: 3 }}>
-          Uppdaterad: {date}
-        </Typography>
-      </Box>
-    </Suspense>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        p: 3,
+      }}>
+      <Link href="/homepage">
+        <CardMedia
+          component="img"
+          alt={imageUrl.title}
+          image={imageUrlImage}
+          sx={{
+            mb: 3,
+            boxShadow: 3,
+            borderRadius: 2,
+          }}
+        />
+      </Link>
+      <Typography
+        variant="body1"
+        color="textSecondary"
+        align="center"
+        sx={{ maxWidth: 800, mb: 3 }}>
+        {plainDescription}
+      </Typography>
+      <Typography
+        variant="body1"
+        color="textSecondary"
+        align="center"
+        sx={{ maxWidth: 800, mb: 3 }}>
+        Uppdaterad: {date}
+      </Typography>
+    </Box>
   );
 };
 

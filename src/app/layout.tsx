@@ -8,7 +8,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Fetch navigation menu data server-side
   const { title, items } = await getNavMenuItems();
 
   return (

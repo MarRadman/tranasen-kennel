@@ -1,7 +1,5 @@
 //eslint no-use-before-define: 0
 import { Box, Typography } from "@mui/material";
-import LoadingData from "../../../components/getLoadingPage";
-import { Suspense } from "react";
 import Image from "next/image";
 import { extractImages, getDogBySlug } from "@/app/services/helpers";
 import { Dog } from "@app/types";
@@ -99,7 +97,7 @@ const DogDetails = async ({
   const images = extractImages(dog.images);
 
   return (
-    <Suspense fallback={<LoadingData />}>
+    <>
       <Box
         sx={{
           display: "flex",
@@ -407,7 +405,7 @@ const DogDetails = async ({
           </Box>
         </Box>
       ) : null}
-    </Suspense>
+    </>
   );
 };
 

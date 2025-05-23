@@ -1,6 +1,4 @@
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
-import LoadingData from "../../components/getLoadingPage";
-import { Suspense } from "react";
 import { getDogsInCategory } from "@/app/services/helpers";
 import Link from "next/link";
 import Image from "next/image";
@@ -34,59 +32,57 @@ const DogsCategories = async ({
   const dogCategories = await getDogsInCategory(category);
 
   return (
-    <Suspense fallback={<LoadingData />}>
-      <Box
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        p: 3,
+      }}>
+      <Typography variant="h2" component={"h2"}>
+        {checkDogCategory(category)}
+      </Typography>
+      <List
         sx={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+          },
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh",
-          p: 3,
+          gap: 2,
         }}>
-        <Typography variant="h2" component={"h2"}>
-          {checkDogCategory(category)}
-        </Typography>
-        <List
-          sx={{
-            display: "flex",
-            flexDirection: {
-              xs: "column",
-              sm: "row",
-            },
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 2,
-          }}>
-          {dogCategories.map((dog) => (
-            <ListItem
-              key={dog.slug}
-              component={Link}
-              href={`/dogs/${category}/${dog.slug}`}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-              }}>
-              {dog.images && dog.images.length > 0 && (
-                <Image
-                  src={dog.images[0]}
-                  alt={dog.name}
-                  width={300}
-                  height={300}
-                  style={{
-                    objectFit: "cover",
-                    borderRadius: "8px",
-                  }}
-                />
-              )}
-              <ListItemText primary={dog.name} />
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-    </Suspense>
+        {dogCategories.map((dog) => (
+          <ListItem
+            key={dog.slug}
+            component={Link}
+            href={`/dogs/${category}/${dog.slug}`}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}>
+            {dog.images && dog.images.length > 0 && (
+              <Image
+                src={dog.images[0]}
+                alt={dog.name}
+                width={300}
+                height={300}
+                style={{
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                }}
+              />
+            )}
+            <ListItemText primary={dog.name} />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
   );
 };
 
